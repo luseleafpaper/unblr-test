@@ -2,5 +2,7 @@
     <string name="app_name">UnblrTest</string>
     <string name="action_settings">Settings</string>
     <string name="edit_message">Enter a message</string>
-    <string name="button_send">Send</string>
+    <string name="button_send">Next Page</string>
+    <string name="choose_image_string">Android image picker example</string>
+    <string name="choose_button">Choose Image</string>
 </resources>
