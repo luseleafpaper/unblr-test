@@ -3,12 +3,16 @@ package com.wix.amilyhe.unblrtest;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +22,18 @@ import android.widget.ImageView;
 
 import java.io.File;
 
+
 public class ImagePicker extends AppCompatActivity {
 
+    public String getRealPathFromURI(Uri contentURI) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(contentURI, proj, null, null, null);
+        if (cursor == null) return null;
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+
+    }
     private Uri imageCaptureUri;
     private ImageView mImageView;
     Button button_choose_image;
@@ -68,6 +82,29 @@ public class ImagePicker extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK)
+            return;
+        Bitmap bitmap = null;
+        String path = "";
+        if (requestCode==PICK_FROM_FILE){
+            imageCaptureUri = data.getData();
+            path = getRealPathFromURI(imageCaptureUri);
+
+            if (path==null)
+                path = imageCaptureUri.getPath();
+            if (path != null)
+                bitmap= BitmapFactory.decodeFile(path);
+        } else {
+            path=imageCaptureUri.getPath();
+            bitmap=BitmapFactory.decodeFile(path);
+        }
+        mImageView.setImageBitmap(bitmap);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
