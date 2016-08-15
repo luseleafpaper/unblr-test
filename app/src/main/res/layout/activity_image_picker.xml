@@ -7,19 +7,26 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:id="@+id/activity_display_message"
-    android:gravity="left|top"
-    tools:context="com.wix.amilyhe.unblrtest.DisplayMessageActivity">
+    tools:context="com.wix.amilyhe.unblrtest.ImagePicker"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textview_display_message"/>
+        android:textStyle="bold"
+        android:text="@string/choose_image_string"
+        />
 
     <Button
+        android:id="@+id/button_choose_image"
         android:layout_width="wrap_content"
+        android:text="@string/choose_button"
         android:layout_height="wrap_content"
-        android:text="@string/button_send"
-        android:layout_gravity="center_horizontal|bottom"
-        android:onClick="startImagePicker"/>
+        />
+    <ImageView
+        android:id="@+id/imageview_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </LinearLayout>
+
