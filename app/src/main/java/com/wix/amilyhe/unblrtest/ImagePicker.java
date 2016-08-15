@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,15 +26,7 @@ import java.io.File;
 
 public class ImagePicker extends AppCompatActivity {
 
-    public String getRealPathFromURI(Uri contentURI) {
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(contentURI, proj, null, null, null);
-        if (cursor == null) return null;
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
 
-    }
     private Uri imageCaptureUri;
     private ImageView mImageView;
     Button button_choose_image;
@@ -44,6 +37,7 @@ public class ImagePicker extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("CREATION", "Started onCreate for ImagePicker ");
         setContentView(R.layout.activity_image_picker);
         final String[] items = new String[] {"From Camera", "From SD Card"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, items);
@@ -78,9 +72,10 @@ public class ImagePicker extends AppCompatActivity {
         button_choose_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                dialog.show();
             }
         });
+        Log.d("CREATION", "reached the end of onCreate for ImagePicker");
     }
 
     @Override
@@ -105,6 +100,15 @@ public class ImagePicker extends AppCompatActivity {
         mImageView.setImageBitmap(bitmap);
     }
 
+    public String getRealPathFromURI(Uri contentURI) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(contentURI, proj, null, null, null);
+        if (cursor == null) return null;
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
